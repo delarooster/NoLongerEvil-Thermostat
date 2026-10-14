@@ -445,11 +445,23 @@ export class MqttIntegration extends BaseIntegration {
 
         case 'preset':
           if (valueStr === 'away') {
-            await this.updateDeviceValue(serial, deviceObj, 'auto_away', 2);
-            await this.updateDeviceValue(serial, deviceObj, 'away', true);
+            await this.updateSharedValue(serial, sharedObj, 'auto_away', 2);
+            await this.updateDeviceFields(serial, deviceObj, {
+              auto_away: 2,
+              away: true,
+            });
           } else if (valueStr === 'home') {
-            await this.updateDeviceValue(serial, deviceObj, 'auto_away', 0);
-            await this.updateDeviceValue(serial, deviceObj, 'away', false);
+            await this.updateSharedValue(serial, sharedObj, 'auto_away', 0);
+            await this.updateDeviceFields(serial, deviceObj, {
+              auto_away: 0,
+              auto_away_enable: false,
+              away: false,
+              eco: {
+                ...deviceObj.value.eco,
+                leaf: false,
+              },
+              leaf: false,
+            });
           } else if (valueStr === 'eco') {
             await this.updateDeviceValue(serial, deviceObj, 'eco', { mode: 'manual-eco', leaf: true });
           }

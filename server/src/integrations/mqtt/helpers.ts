@@ -221,6 +221,12 @@ export async function isDeviceAway(
   deviceState: DeviceStateService
 ): Promise<boolean> {
   try {
+    const sharedObj = await deviceState.get(serial, `shared.${serial}`);
+    const shared = sharedObj?.value || {};
+    if (typeof shared.auto_away === 'number') {
+      return shared.auto_away > 0;
+    }
+
     const deviceObj = await deviceState.get(serial, `device.${serial}`);
     const device = deviceObj?.value || {};
 
@@ -310,7 +316,7 @@ export async function isEcoActive(
     const deviceObj = await deviceState.get(serial, `device.${serial}`);
     const device = deviceObj?.value || {};
 
-    return Boolean(device.eco?.leaf || device.leaf);
+    return device.eco?.mode === 'manual-eco';
   } catch (error) {
     console.error(`[MQTT Helpers] Error checking eco status for ${serial}:`, error);
     return false;
