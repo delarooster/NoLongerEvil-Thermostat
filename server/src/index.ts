@@ -157,7 +157,9 @@ async function handleDeviceRequest(req: http.IncomingMessage, res: http.ServerRe
       if (environment.DEBUG_LOGGING) {
         logRequest(req, body);
       }
-      // Note: Device availability is tracked via active subscriptions in SubscriptionManager
+      if (Array.isArray(body?.objects)) {
+        availabilityWatchdog.markSeen(serial);
+      }
       await handleTransportSubscribe(req, res, serial, body, deviceStateService, subscriptionManager, deviceStateManager);
       return;
     }

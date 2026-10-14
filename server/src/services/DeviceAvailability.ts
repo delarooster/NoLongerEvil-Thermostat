@@ -2,7 +2,7 @@
  * Device Availability Watchdog
  *
  * Tracks when devices were last seen and marks them as unavailable
- * if they haven't communicated in more than 125 seconds.
+ * after a sustained gap in device traffic.
  *
  * Devices are considered "seen" when they:
  * - Hit /nest/entry
@@ -23,7 +23,7 @@ export interface DeviceAvailabilityState {
 export class DeviceAvailabilityWatchdog {
   private deviceStates: Map<string, DeviceAvailabilityState> = new Map();
   private watchdogTimer: NodeJS.Timeout | null = null;
-  private readonly TIMEOUT_MS = 300000; // 5 minutes (300 seconds)
+  private readonly TIMEOUT_MS = 600000;
   private readonly CHECK_INTERVAL_MS = 30000; // Check every 30 seconds
   private onAvailabilityChange: ((serial: string, isAvailable: boolean) => void) | null = null;
   private subscriptionManager: SubscriptionManager | null = null;

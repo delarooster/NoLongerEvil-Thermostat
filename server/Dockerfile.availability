@@ -1,0 +1,4 @@
+FROM ghcr.io/delarooster/nolongerevil@sha256:9dd4facf1c999ef2c90cef1bb34af1009e9a9935bb17465eb927d437d867fb28
+
+COPY dist/index.js /app/dist/index.js
+COPY dist/services/DeviceAvailability.js /app/dist/services/DeviceAvailability.js

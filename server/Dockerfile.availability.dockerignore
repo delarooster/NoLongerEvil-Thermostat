@@ -1,0 +1,6 @@
+**
+!dist/
+!dist/index.js
+!dist/services/
+!dist/services/DeviceAvailability.js
+!Dockerfile.availability
